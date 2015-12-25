@@ -5,33 +5,27 @@ module.exports = function(options) {
     const alias = {};
     const aliasLoader = {};
     const root = path.join(__dirname, 'src');
-    const extensions = ['', '.vue.js', '.js', '.jsx'];
+    const extensions = ['', '.vue', '.js', '.jsx'];
     const modulesDirectories = ['node_modules'];
     const entry = [
         './src/main'
     ];
-    const publicPath = options.devServer ?
-        'http://localhost:9000/assets/scripts' :
-        '/assets/scripts';
-
     const output = {
-        publicPath: publicPath,
+        publicPath: options.devServer ?
+            'http://localhost:9000/assets/scripts' :
+            '/assets/scripts',
         path: path.join(__dirname, (options.longTermCaching ? 'dist' : 'public'), 'assets/scripts'),
         filename: options.longTermCaching ? 'bundle.[hash].js' : 'bundle.js',
-        // chunkFilename: (options.devServer ? '[id].js' : '[name].js'),
-        sourceMapFilename: 'debug/bundle.[hash].js.map',
+        sourceMapFilename: options.longTermCaching ? 'debug/bundle.[hash].js.map' : 'bundle.js.map',
+        chunkFilename: options.longTermCaching ? '[id].[hash].chunk.js' : 'bundle.chunk.js',
         pathinfo: options.debug
     };
-
-
     const plugins = [];
     if (options.minimiz) {
         plugins.push(
             // uglify
             new webpack.optimize.UglifyJsPlugin({
-                compressor: {
-                    warnings: false
-                }
+                compressor: { warnings: false }
             }),
             // dedupe
             new webpack.optimize.DedupePlugin(),
