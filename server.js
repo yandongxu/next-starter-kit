@@ -1,9 +1,9 @@
-const PORT = 9000;
 const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
-const config = require('./webpack.config.dev');
+const config = require('./webpack.config.server');
+const port = config.devServerPort;
 // hot reload
-config.entry.unshift(`webpack-dev-server/client?http://localhost:${PORT}`);
+config.entry.unshift(`webpack-dev-server/client?http://localhost:${port}`);
 const compiler = webpack(config);
 
 new WebpackDevServer(compiler, {
@@ -16,7 +16,7 @@ new WebpackDevServer(compiler, {
     stats: {
         colors: true
     }
-}).listen(PORT, 'localhost', (err) => {
+}).listen(port, 'localhost', (err) => {
     if (err) console.error(err);
-    console.log(`Listenging at localhost:${PORT}`);
+    console.log(`Listenging at http://localhost:${port}`);
 });
