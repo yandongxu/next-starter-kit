@@ -1,6 +1,7 @@
-module.exports = require('./webpack.config.io')({
+module.exports = require('./io')({
     devtool: 'cheap-module-source-map',
     devServer: true,
+    port: 9000,
     debug: true,
-    port: 9000
+    watch: true
 });
